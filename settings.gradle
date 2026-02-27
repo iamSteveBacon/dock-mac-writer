@@ -1,0 +1,2 @@
+rootProject.name = "dock-mac-writer"
+include(":app")
