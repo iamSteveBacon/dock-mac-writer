@@ -3,12 +3,11 @@ name: Build APK
 on:
   workflow_dispatch:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,13 +21,15 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Grant execute permission
-        run: chmod +x ./gradlew || true
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.2.2"
 
       - name: Build Debug APK
-        run: ./gradlew :app:assembleDebug
+        run: gradle :app:assembleDebug
 
-      - name: Upload APK
+      - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: dock-mqtt-apk
